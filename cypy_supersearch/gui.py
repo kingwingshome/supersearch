@@ -1,4 +1,6 @@
 import os
+import sys
+import subprocess
 import time
 from typing import List, Optional
 
@@ -215,10 +217,23 @@ class MainWindow(QtWidgets.QMainWindow):
         path_index = self.model.index(row, 1)
         return self.model.data(path_index)
 
+    def _open_file_cross_platform(self, path: str):
+        if not path or not os.path.exists(path):
+            return
+
+        try:
+            if sys.platform == "win32":
+                os.startfile(path)
+            elif sys.platform == "darwin":
+                subprocess.Popen(["open", path])
+            else:
+                subprocess.Popen(["xdg-open", path])
+        except Exception as e:
+            self.status_bar.showMessage(f"Failed to open: {e}")
+
     def on_open_item(self, index: QtCore.QModelIndex):
         path = self.current_row_path(index)
-        if path and os.path.exists(path):
-            os.startfile(path)
+        self._open_file_cross_platform(path)
 
     def on_context_menu(self, pos):
         idx = self.table.indexAt(pos)
@@ -240,8 +255,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.on_open_item(idx)
         elif act == open_folder:
             folder = os.path.dirname(path)
-            if os.path.isdir(folder):
-                os.startfile(folder)
+            self._open_file_cross_platform(folder)
         elif act == copy_fullpath:
             QtGui.QGuiApplication.clipboard().setText(path)
             self.status_bar.showMessage("Copied full path")

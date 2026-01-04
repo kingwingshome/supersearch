@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="cypy_supersearch",
-    version="2026.1.4",
+    version="2026.1.4.1",
     description="A fast local file search tool",
     long_description=long_description,
     long_description_content_type="text/markdown",
