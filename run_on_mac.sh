@@ -1,2 +1,2 @@
 #!/bin/bash
-python -m supersearch.main
+python -m cypy_supersearch.main

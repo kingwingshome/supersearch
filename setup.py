@@ -4,7 +4,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="supersearch",
+    name="cypy_supersearch",
     version="2026.1.4",
     description="A fast local file search tool",
     long_description=long_description,
@@ -19,7 +19,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "supersearch=supersearch.main:main",
+            "supersearch=cypy_supersearch.main:main",
         ],
     },
     classifiers=[
